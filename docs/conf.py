@@ -12,7 +12,6 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.coverage",
     "sphinx.ext.viewcode",
-    "sphinx-rtd-theme"
 ]
 
 # The suffix of source filenames.
@@ -26,9 +25,9 @@ project = u"haralyzer_3"
 copyright = u"2020, Justin Crown & Cyb3r Jak3"
 
 
-version = '1.8'
+version = "1.8"
 # The full version, including alpha/beta/rc tags.
-release = '1.8.0'
+release = "1.8.0"
 
 
 exclude_patterns = ["_build"]
@@ -36,7 +35,7 @@ exclude_patterns = ["_build"]
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
 
-html_theme = 'sphinx-rtd-theme'
+html_theme = "default"
 
 
 # Output file base name for HTML help builder.
