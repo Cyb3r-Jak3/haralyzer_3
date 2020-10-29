@@ -1,0 +1,7 @@
+-r requirements.txt
+bumpversion
+coverage
+pytest
+pytest-cov
+coveralls
+sphinx
