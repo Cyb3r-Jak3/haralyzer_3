@@ -1,14 +1,28 @@
-.. haralyzer documentation master file, created by
-   sphinx-quickstart on Thu Feb 26 08:00:24 2015.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+===========
+haralyzer_3
+===========
 
-.. include:: ../README.rst
+`haralyzer_3` is a Python 3 framework for getting useful stuff out of HAR files. This is a fork of https://github.com/mrname/haralyzer but only supports Python 3
 
+Overview
+--------
 .. toctree::
    :maxdepth: 2
 
-    modules.rst
+   basic/index
+   basic/harparser
+   basic/harpage
+   basic/harentry
+
+Advanced
+--------
+.. toctree::
+   :maxdepth: 2
+
+   advanced/harpage
+   advanced/asset_timeline
+   modules
+
 
 
 Indices and tables

@@ -6,6 +6,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
+VERSION = "1.8.0"
 install_reqs = ['cached-property',
                 'python-dateutil',
                 "six >= 1.13.0"]
@@ -21,21 +22,23 @@ readme = open('README.rst').read()
 
 setup(
         name="haralyzer_3",
-        version="1.8.0",
-        description="A Python 3 framework for getting useful stuff out of HAR files",
+        version=VERSION,
+        description="A Python 3 for of haralyzer which is a framework for getting useful stuff out of HAR files",
         long_description=readme,
-        author="Justin Crown",
-        author_email="justincrown1@gmail.com",
+        author="Cyb3r Jak3",
+        author_email="jake@jwhite.network",
         url="https://github.com/Cyb3r-Jak3/haralyzer_3",
-        download_url="https://github.com/mrname/haralyzer/tarball/1.0",
+        project_urls={
+          "Changelog": "https://github.com/Cyb3r-Jak3/haralyzer_3/blob/master/HISTORY.rst",
+          "Docs": "https://haralyzer-3.readthedocs.io/en/latest/"
+        },
+        download_url="https://github.com/mrname/haralyzer/tarball/{}".format(VERSION),
         packages=[
             "haralyzer_3"
         ],
         package_dir={"haralyzer_3": "haralyzer_3"},
         tests_require=test_requirements,
         install_requires=install_reqs,
-        extras_require={
-        },
         license="MIT",
         zip_safe=False,
         keywords="har",
