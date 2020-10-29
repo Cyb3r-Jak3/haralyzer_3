@@ -22,16 +22,16 @@ readme = open('README.rst').read()
 setup(
         name="haralyzer_3",
         version="1.8.0",
-        description="A Python framework for getting useful stuff out of HAR files",
+        description="A Python 3 framework for getting useful stuff out of HAR files",
         long_description=readme,
         author="Justin Crown",
         author_email="justincrown1@gmail.com",
         url="https://github.com/Cyb3r-Jak3/haralyzer_3",
         download_url="https://github.com/mrname/haralyzer/tarball/1.0",
         packages=[
-            "haralyzer"
+            "haralyzer_3"
         ],
-        package_dir={"haralyzer": "haralyzer"},
+        package_dir={"haralyzer_3": "haralyzer_3"},
         tests_require=test_requirements,
         install_requires=install_reqs,
         extras_require={
@@ -44,6 +44,14 @@ setup(
             "Intended Audience :: Developers",
             "License :: OSI Approved :: MIT License",
             "Natural Language :: English",
+            "Programming Language :: Python :: 3 :: Only",
             "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.5",
+            "Programming Language :: Python :: 3.6",
+            "Programming Language :: Python :: 3.7",
+            "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: Implementation :: PyPy",
+            "Programming Language :: Python :: Implementation :: CPython"
         ],
 )
