@@ -1,24 +1,15 @@
 #!/usr/bin/env python
-import sys
-
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup
 
 VERSION = "1.8.0"
-install_reqs = ['cached-property',
-                'python-dateutil',
+install_reqs = ["cached-property",
+                "python-dateutil",
                 "six >= 1.13.0"]
 
-if sys.version_info < (3, 4):
-    install_reqs.extend([
-        "backports.statistics",
-    ])
-test_requirements = ['pytest-cov',
-                     'python-coveralls', ]
+test_requirements = ["pytest-cov",
+                     "python-coveralls", ]
 
-readme = open('README.rst').read()
+readme = open("README.rst").read()
 
 setup(
         name="haralyzer_3",

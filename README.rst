@@ -22,4 +22,4 @@ A Python 3 Framework For Using HAR Files To Analyze Web Pages.
 
 This is a fork of https://github.com/mrname/haralyzer but only supports Python 3
 
-To learn more about how to this this project, check out the documentation `here <https://docs.har.jwhite.network>`_
+To learn more about how to this this project, check out the documentation `here <https://haralyzer-3.readthedocs.io/>`_

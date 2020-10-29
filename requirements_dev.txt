@@ -5,6 +5,7 @@ pytest
 pytest-cov
 coveralls
 sphinx
+sphinx-rtd-theme
 bandit
 flake8
 pylint

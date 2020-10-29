@@ -3,7 +3,7 @@ HarParser
 
 The ``HarParser`` takes a single argument of a ``dict`` representing the JSON
 of a full HAR file. It has the same properties of the HAR file, EXCEPT that each
-page in HarParser.pages is a HarPage object::
+page in HarParser.pages is a HarPage object. ::
 
     import json
     from haralyzer_3 import HarParser, HarPage

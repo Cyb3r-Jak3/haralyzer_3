@@ -3,6 +3,17 @@
 History
 -------
 
+1.8.0 haralyzer_3 (2020-10-29)
+++++++++++++++++++++++++++++++
+
+* Adds HarEntry Class
+* Drops Python 2 support
+* Adds typing
+* refactored for pylint, flake8 and python black
+
+
+====
+
 1.8.0 (2019-10-11)
 ++++++++++++++++++
 
