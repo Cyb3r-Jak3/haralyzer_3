@@ -5,3 +5,7 @@ pytest
 pytest-cov
 coveralls
 sphinx
+bandit
+flake8
+pylint
+black

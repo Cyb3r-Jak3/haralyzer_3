@@ -1,6 +1,6 @@
 import pytest
-from haralyzer_3 import HarPage, HarParser, HarEntry
-from haralyzer_3.compat import iteritems
+from haralyzer_3 import HarPage, HarParser
+from haralyzer_3.mixins import iteritems
 from haralyzer_3.errors import PageNotFoundError
 import re
 import six

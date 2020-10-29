@@ -1,7 +1,8 @@
 import datetime
 import pytest
 from haralyzer_3 import HarParser, HarPage, HarEntry
-from haralyzer_3.compat import iteritems
+from haralyzer_3.assets import create_asset_timeline
+from haralyzer_3.mixins import iteritems
 from dateutil import parser as du
 
 
@@ -198,12 +199,12 @@ def test_create_asset_timeline(har_data):
     time_key = entry.startTime
     load_time = entry.time
 
-    asset_timeline = har_parser.create_asset_timeline([entry])
+    asset_timeline = create_asset_timeline([entry])
 
     # The number of entries in the timeline should match the load time
     assert len(asset_timeline) == load_time
 
-    for t in range(1, load_time):
+    for t in range(1, int(load_time)):
         assert time_key in asset_timeline
         assert len(asset_timeline[time_key]) == 1
         # Compare the dicts
