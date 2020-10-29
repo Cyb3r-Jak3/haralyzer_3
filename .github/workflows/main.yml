@@ -51,7 +51,7 @@ jobs:
 
     - name: Install Dependanices
       run: |
-        pip install --upgrade pip wheel
+        pip install --upgrade pip wheel Cython
         pip install . -r requirements_dev.txt
 
     - name: Python Black
