@@ -1,11 +1,11 @@
 -r requirements.txt
+-r docs/requirements.txt
 bumpversion
 coverage
 pytest
 pytest-cov
 coveralls
 sphinx
-sphinx-rtd-theme
 bandit
 flake8
 pylint
