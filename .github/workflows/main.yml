@@ -67,7 +67,7 @@ jobs:
       run: bandit -r haralyzer_3
 
     - name: Tests
-      run: py.test --cov haralyzer tests/ -vv
+      run: py.test --cov haralyzer_3 tests/ -vv
 
     - name: Coveralls Parallel
       run: coveralls
