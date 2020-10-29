@@ -61,7 +61,7 @@ jobs:
       run: pylint haralyzer_3
 
     - name: Flake8
-      run: flake8 flake8 --statistics --show-source --count haralyzer_3
+      run: flake8 --statistics --show-source --count haralyzer_3
 
     - name: Bandit
       run: bandit -r haralyzer_3
