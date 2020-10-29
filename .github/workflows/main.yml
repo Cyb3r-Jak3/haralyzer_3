@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-10.15, windows-2016, windows-2019]
-        python-version: [3.6, 3.7, 3.8, 3.9, pypy3]
+        python-version: [3.6, 3.7, 3.8, 3.9]
     steps:
     - uses: actions/checkout@v2
 
@@ -51,7 +51,7 @@ jobs:
 
     - name: Install Dependanices
       run: |
-        pip install --upgrade pip wheel Cython
+        pip install --upgrade pip wheel
         pip install . -r requirements_dev.txt
 
     - name: Python Black
