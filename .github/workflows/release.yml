@@ -19,7 +19,16 @@ jobs:
           pip install setuptools wheel twine
 
       - name: Build
-        run: python setup.py sdist bdist_wheel
+        run: |
+          python setup.py sdist bdist_wheel
+          SDIST_PATH=$(ls dist/*.tar.gz)
+          SDIST_NAME=$(basename $SDIST_PATH)
+          WHEEL_PATH=$(ls dist/*.whl)
+          WHEEL_NAME=$(basename $WHEEL_PATH)
+          echo ::set-env name=SDIST_NAME::${SDIST_NAME}
+          echo ::set-env name=SDIST_PATH::${SDIST_PATH}
+          echo ::set-env name=WHEEL_PATH::${WHEEL_PATH}
+          echo ::set-env name=WHEEL_NAME::${WHEEL_NAME}
 
       - name: Create Release
         id: create_release
@@ -29,12 +38,27 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: true
-          prerelease: true
+          draft: True
+          prerelease: false
 
-      - name: Upload Assests Asset
+      - name: Upload Tar Asset
         id: upload-tar-asset
-        uses: AButler/upload-release-assets@v2.0
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: "dist/*.tar.gz;dist/*.whl"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.SDIST_PATH}}
+          asset_name: ${{ env.SDIST_NAME}}
+          asset_content_type: application/zip
+
+      - name: Upload Wheel Asset
+        id: upload-wheel-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.WHEEL_PATH}}
+          asset_name: ${{ env.WHEEL_NAME}}
+          asset_content_type: application/zip
