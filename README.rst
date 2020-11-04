@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FCyb3r-Jak3%2Fharalyzer_3.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FCyb3r-Jak3%2Fharalyzer_3?ref=badge_shield)
+
 ===========
 Haralyzer_3
 ===========
@@ -23,3 +25,6 @@ A Python 3 Framework For Using HAR Files To Analyze Web Pages.
 This is a fork of https://github.com/mrname/haralyzer but only supports Python 3
 
 To learn more about how to this this project, check out the documentation `here <https://haralyzer-3.readthedocs.io/>`_
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FCyb3r-Jak3%2Fharalyzer_3.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FCyb3r-Jak3%2Fharalyzer_3?ref=badge_large)
