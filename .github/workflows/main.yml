@@ -57,7 +57,7 @@ jobs:
     - name: Install Dependanices
       run: |
         pip install --upgrade pip wheel
-        pip install . -r requirements_dev.txt
+        pip install . -r requirements-dev.txt
 
     - name: Python Black
       run: black --check haralyzer_3
@@ -74,21 +74,27 @@ jobs:
     - name: Tests
       run: py.test --cov haralyzer_3 tests/ -vv
 
-    - name: Coveralls Parallel
-      run: coveralls
+    - name: Report to CodeCov
+      run: |
+        curl -o codecov.sh -f https://codecov.io/bash
+        bash codecov.sh -n "Python ${{ matrix.python-version }} on ${{ matrix.os }}"
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_FLAG_NAME: ${{ matrix.os }}-${{ matrix.python-version }}
-        COVERALLS_PARALLEL: true
+        CODECOV_TOKEN: CODECOV
+#    - name: Coveralls Parallel
+#      run: coveralls
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        COVERALLS_FLAG_NAME: ${{ matrix.os }}-${{ matrix.python-version }}
+#        COVERALLS_PARALLEL: true
 
-  Report_to_Coveralls:
-    needs: Test
-    runs-on: ubuntu-latest
-    container: python:3.8-slim
-    steps:
-      - name: Finished
-        run: |
-          pip3 install --upgrade coveralls
-          coveralls --finish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#  Report_to_Coveralls:
+#    needs: Test
+#    runs-on: ubuntu-latest
+#    container: python:3.8-slim
+#    steps:
+#      - name: Finished
+#        run: |
+#          pip3 install --upgrade coveralls
+#          coveralls --finish
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
