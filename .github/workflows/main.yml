@@ -80,21 +80,3 @@ jobs:
         bash codecov.sh -n "Python ${{ matrix.python-version }} on ${{ matrix.os }}"
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV }}
-#    - name: Coveralls Parallel
-#      run: coveralls
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        COVERALLS_FLAG_NAME: ${{ matrix.os }}-${{ matrix.python-version }}
-#        COVERALLS_PARALLEL: true
-
-#  Report_to_Coveralls:
-#    needs: Test
-#    runs-on: ubuntu-latest
-#    container: python:3.8-slim
-#    steps:
-#      - name: Finished
-#        run: |
-#          pip3 install --upgrade coveralls
-#          coveralls --finish
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
