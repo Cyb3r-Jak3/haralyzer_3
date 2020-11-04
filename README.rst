@@ -6,8 +6,8 @@ Haralyzer_3
     :target: https://github.com/Cyb3r-Jak3/haralyzer_3/actions?query=branch%3Amaster+workflow%3A%22Python+Checking%22
     :alt: Build status
 
-.. image:: https://coveralls.io/repos/github/Cyb3r-Jak3/haralyzer_3/badge.svg?branch=master
-    :target: https://coveralls.io/github/Cyb3r-Jak3/haralyzer_3?branch=master
+.. image:: https://codecov.io/gh/Cyb3r-Jak3/haralyzer_3/branch/master/graph/badge.svg?token=8YAOGCMLX4
+    :target: https://codecov.io/gh/Cyb3r-Jak3/haralyzer_3
     :alt: Coverage status
 
 .. image:: https://readthedocs.org/projects/haralyzer-3/badge/?version=latest
