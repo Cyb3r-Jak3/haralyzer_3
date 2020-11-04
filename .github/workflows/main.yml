@@ -79,7 +79,7 @@ jobs:
         curl -o codecov.sh -f https://codecov.io/bash
         bash codecov.sh -n "Python ${{ matrix.python-version }} on ${{ matrix.os }}"
       env:
-        CODECOV_TOKEN: {{ $secrets.CODECOV }}
+        CODECOV_TOKEN: ${{ secrets.CODECOV }}
 #    - name: Coveralls Parallel
 #      run: coveralls
 #      env:
