@@ -66,7 +66,7 @@ def test_request(har_data):
     assert request.url == "https://jwhite.network/"
     assert request.userAgent == "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36"
 
-    assert request.get_header_value("Connection") is None
+    assert request.headers.get("connection") is None
 
 
 def test_response(har_data):
@@ -92,7 +92,7 @@ def test_response(har_data):
     with pytest.raises(KeyError):
         assert len(response.text)
 
-    assert response.get_header_value("Server") == "cloudflare"
+    assert response.headers.get("server") == "cloudflare"
 
 
 def test_backwards(har_data):

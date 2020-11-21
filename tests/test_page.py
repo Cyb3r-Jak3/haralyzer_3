@@ -67,24 +67,20 @@ def test_filter_entries(har_data):
     entries = page.filter_entries(request_type='.*ET', content_type='image.*')
     assert len(entries) == 1
     for entry in entries:
-        assert entry.request.method == entry["request"]["method"] == 'GET'
-        for header in entry.request.headers:
-            if header['name'] == 'Content-Type':
-                assert re.search('image.*', header['value'])
+        assert entry.request.method == entry["request"]["method"] == "GET"
+        if entry.request.headers.get("content-type") is not None:
+            assert re.search('image.*', entry.request.headers.get("content-type"))
 
     # Filter by request type, content type, and status code
-    entries = page.filter_entries(request_type='.*ET', content_type='image.*',
-                                  status_code='2.*')
+    entries = page.filter_entries(
+        request_type='.*ET', content_type='image.*', status_code='2.*'
+    )
     assert len(entries) == 1
     for entry in entries:
         assert entry.request.method == entry["request"]["method"] == 'GET'
         assert re.search('2.*', str(entry.response.status))
-        for header in entry.response.headers:
-            if header['name'] == 'Content-Type':
-                assert re.search('image.*', header['value'])
-        for header in entry["response"]["headers"]:
-            if header['name'] == 'Content-Type':
-                assert re.search('image.*', header['value'])
+        if entry.response.headers.get("content-type") is not None:
+            assert re.search('image.*', entry.response.headers.get("content-type"))
 
     entries = page.filter_entries(request_type='.*ST')
     assert len(entries) == 0
@@ -272,9 +268,7 @@ def test_url(har_data):
 
 
 def _correct_file_type(entry, file_types):
-    for header in entry.response.headers:
-        if header['name'] == 'Content-Type':
-            return any(ft in header['value'] for ft in file_types)
+    return any(ft in entry.response.headers.get("content-type") for ft in file_types)
 
 
 def test_duplicate_urls_count(har_data):

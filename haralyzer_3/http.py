@@ -2,6 +2,13 @@
 from cached_property import cached_property
 from .mixins import HttpTransaction
 
+try:
+    from requests import Request as RRequest
+    from requests import PreparedRequest
+    REQUESTS_AVAILABLE = True
+except ImportError:
+    REQUESTS_AVAILABLE = False
+
 
 class Request(HttpTransaction):
     # pylint: disable=invalid-name
@@ -12,6 +19,22 @@ class Request(HttpTransaction):
 
     def __repr__(self):
         return "HarEntry.Request for %s" % self.raw_entry["url"]
+
+    def to_request(self) -> PreparedRequest:
+        """
+        Generates a requests.PreparedRequest for a HarEntry.Request
+        :return: PreparedRequest
+        """
+        if REQUESTS_AVAILABLE:
+            return RRequest(
+                method=self.method,
+                url=self.url,
+                headers=self.headers,
+                cookies=self.cookies,
+            ).prepare()
+        raise RuntimeError(
+            """Requests is not installed. Please install with `pip install requests`"""
+        )
 
     # Root Level values
 
@@ -35,27 +58,27 @@ class Request(HttpTransaction):
     @cached_property
     def accept(self):
         """:returns accept header"""
-        return self.get_header_value("Accept")
+        return self.headers.get("accept")
 
     @cached_property
     def encoding(self):
         """:returns accept-encoding header"""
-        return self.get_header_value("Accept-Encoding")
+        return self.headers.get("accept-encoding")
 
     @cached_property
     def host(self):
         """:returns Host header"""
-        return self.get_header_value("Host")
+        return self.headers.get("host")
 
     @cached_property
     def language(self):
         """:returns language-accept header"""
-        return self.get_header_value("Accept-Language")
+        return self.headers.get("accept-language")
 
     @cached_property
     def userAgent(self):
         """:returns user agent"""
-        return self.get_header_value("User-Agent")
+        return self.headers.get("user-agent")
 
 
 class Response(HttpTransaction):
@@ -86,7 +109,7 @@ class Response(HttpTransaction):
     @cached_property
     def contentSecurityPolicy(self) -> str:
         """:returns contentSecurityPolicy header"""
-        return self.get_header_value("content-security-policy")
+        return self.headers.get("content-security-policy")
 
     @cached_property
     def contentSize(self) -> int:
@@ -96,17 +119,17 @@ class Response(HttpTransaction):
     @cached_property
     def contentType(self) -> str:
         """:returns content type header"""
-        return self.get_header_value("content-type")
+        return self.headers.get("content-type")
 
     @cached_property
     def date(self) -> str:
         """:returns date header"""
-        return self.get_header_value("date")
+        return self.headers.get("date")
 
     @cached_property
     def lastModified(self) -> str:
         """:returns last-modifed header"""
-        return self.get_header_value("last-modified")
+        return self.headers.get("last-modified")
 
     @cached_property
     def mimeType(self) -> str:

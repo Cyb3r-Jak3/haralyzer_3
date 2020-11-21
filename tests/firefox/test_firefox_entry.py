@@ -53,7 +53,7 @@ def test_request(har_data):
     assert request.url == "https://www.jwhite.network/"
     assert request.userAgent == "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0"
 
-    assert request.get_header_value("Connection") == "keep-alive"
+    assert request.headers.get("connection") == "keep-alive"
 
 
 def test_response(har_data):
@@ -80,7 +80,7 @@ def test_response(har_data):
     # TODO: Figure out why this is happening and correct it
     assert len(response.text) in [18989, 18960]
 
-    assert response.get_header_value("Server") == "cloudflare"
+    assert response.headers.get("server") == "cloudflare"
 
 
 def test_backwards(har_data):

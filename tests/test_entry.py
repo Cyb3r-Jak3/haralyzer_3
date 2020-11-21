@@ -1,6 +1,7 @@
 import pytest
 from haralyzer_3 import HarPage, HarEntry
 
+from requests import PreparedRequest
 
 PAGE_ID = 'page_3'
 
@@ -51,7 +52,8 @@ def test_request(har_data):
     assert request.url == "http://humanssuck.net/"
     assert request.userAgent == "Mozilla/5.0 (X11; Linux i686 on x86_64; rv:25.0) Gecko/20100101 Firefox/25.0"
 
-    assert request.get_header_value("Connection") == "keep-alive"
+    assert request.headers.get("connection") == "keep-alive"
+    assert isinstance(request.to_request(), PreparedRequest)
 
 
 def test_response(har_data):
@@ -76,7 +78,7 @@ def test_response(har_data):
     assert response.statusText == "OK"
     assert len(response.text) == 308
 
-    assert response.get_header_value("Server") == "nginx"
+    assert response.headers.get("server") == "nginx"
 
 
 def test_backwards(har_data):

@@ -56,9 +56,8 @@ def test_filter_entries(har_data):
     assert len(entries) == 11
     for entry in entries:
         assert entry.request.method == entry["request"]["method"] == 'GET'
-        for header in entry.request.headers:
-            if header['name'] == 'Content-Type':
-                assert re.search('image.*', header['value'])
+        if entry.request.headers.get("content-type") is not None:
+            assert re.search('image.*', entry.request.headers.get("content-type"))
 
     # Filter by request type, content type, and status code
     entries = page.filter_entries(request_type='.*ET', content_type='image.*',
@@ -67,12 +66,8 @@ def test_filter_entries(har_data):
     for entry in entries:
         assert entry.request.method == entry["request"]["method"] == 'GET'
         assert re.search('2.*', str(entry.response.status))
-        for header in entry.response.headers:
-            if header['name'] == 'Content-Type':
-                assert re.search('image.*', header['value'])
-        for header in entry["response"]["headers"]:
-            if header['name'] == 'Content-Type':
-                assert re.search('image.*', header['value'])
+        if entry.response.headers.get("content-type") is not None:
+            assert re.search('image.*', entry.response.headers.get("content-type"))
 
     entries = page.filter_entries(request_type='.*ST')
     assert len(entries) == 3
@@ -145,7 +140,7 @@ def test_hostname(har_data):
     """
     init_data = har_data("chrome.har")
     page = HarPage(PAGE_ID, har_data=init_data)
-    assert page.hostname is None
+    assert page.hostname == ""
 
 
 def test_url(har_data):

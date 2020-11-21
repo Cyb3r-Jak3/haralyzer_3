@@ -119,14 +119,13 @@ class HarParser:
             raise ValueError(
                 "Invalid header_type, should be either:\n\n" "* 'request'\n*'response'"
             )
-
         # TODO - headers are empty in some HAR data.... need fallbacks here
-        for x in getattr(entry, header_type).headers:
-            if x["name"].lower() == header.lower() and x["value"] is not None:
-                if regex and re.search(value, x["value"], flags=re.IGNORECASE):
-                    return True
-                if value == x["value"]:
-                    return True
+        x = getattr(entry, header_type).headers.get(header.lower())
+        if x is not None:
+            if regex and re.search(value, x, flags=re.IGNORECASE):
+                return True
+            if value == x:
+                return True
         return False
 
     @staticmethod
@@ -564,14 +563,11 @@ class HarPage:
     # BEGIN PROPERTIES #
 
     @cached_property
-    def hostname(self) -> [str, None]:
+    def hostname(self) -> str:
         """
         Hostname of the initial request
         """
-        for header in self.entries[0].request.headers:
-            if header["name"] == "Host":
-                return header["value"]
-        return None
+        return self.entries[0].request.headers.get("host", "")
 
     @cached_property
     def url(self) -> [str, None]:
