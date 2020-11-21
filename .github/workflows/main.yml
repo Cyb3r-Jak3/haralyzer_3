@@ -12,12 +12,12 @@ on:
 
 
 jobs:
-  Test:
+  Windows:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, macos-10.15, windows-2016, windows-2019]
+        os: [windows-2016, windows-2019]
         python-version: [3.6, 3.7, 3.8, 3.9, pypy3]
     steps:
     - uses: actions/checkout@v2
@@ -26,24 +26,6 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Linux Cache
-      uses: actions/cache@v2
-      if: startsWith(runner.os, 'Linux')
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/requirements-dev.txts') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - name: MacOS Cache
-      uses: actions/cache@v2
-      if: startsWith(runner.os, 'macOS')
-      with:
-        path: ~/Library/Caches/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/requirements-dev.txts') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
 
     - name: Windows Cache
       uses: actions/cache@v2
@@ -80,3 +62,105 @@ jobs:
         bash codecov.sh -n "Python ${{ matrix.python-version }} on ${{ matrix.os }}"
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV }}
+
+  Linux:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-16.04, ubuntu-18.04, ubuntu-20.04 ]
+        python-version: [ 3.6, 3.7, 3.8, 3.9, pypy3 ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Linux Cache
+        uses: actions/cache@v2
+        if: startsWith(runner.os, 'Linux')
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/requirements-dev.txts') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Dependanices
+        run: |
+          pip install --upgrade pip wheel
+          pip install . -r requirements-dev.txt
+
+      - name: Python Black
+        run: black --check haralyzer_3
+
+      - name: Pylint
+        run: pylint haralyzer_3
+
+      - name: Flake8
+        run: flake8 --statistics --show-source --count haralyzer_3
+
+      - name: Bandit
+        run: bandit -r haralyzer_3
+
+      - name: Tests
+        run: py.test --cov haralyzer_3 tests/ -vv
+
+      - name: Report to CodeCov
+        run: |
+          curl -o codecov.sh -f https://codecov.io/bash
+          bash codecov.sh -n "Python ${{ matrix.python-version }} on ${{ matrix.os }}"
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV }}
+
+  MacOS:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macos-10.15 ]
+        python-version: [ 3.6, 3.7, 3.8, 3.9, pypy3 ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: MacOS Cache
+        uses: actions/cache@v2
+        if: startsWith(runner.os, 'macOS')
+        with:
+          path: ~/Library/Caches/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/requirements-dev.txts') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Dependanices
+        run: |
+          pip install --upgrade pip wheel
+          pip install . -r requirements-dev.txt
+
+      - name: Python Black
+        run: black --check haralyzer_3
+
+      - name: Pylint
+        run: pylint haralyzer_3
+
+      - name: Flake8
+        run: flake8 --statistics --show-source --count haralyzer_3
+
+      - name: Bandit
+        run: bandit -r haralyzer_3
+
+      - name: Tests
+        run: py.test --cov haralyzer_3 tests/ -vv
+
+      - name: Report to CodeCov
+        run: |
+          curl -o codecov.sh -f https://codecov.io/bash
+          bash codecov.sh -n "Python ${{ matrix.python-version }} on ${{ matrix.os }}"
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV }}

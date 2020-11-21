@@ -5,6 +5,7 @@ from .mixins import HttpTransaction
 try:
     from requests import Request as RRequest
     from requests import PreparedRequest
+
     REQUESTS_AVAILABLE = True
 except ImportError:
     REQUESTS_AVAILABLE = False
