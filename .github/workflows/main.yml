@@ -59,8 +59,20 @@ jobs:
         pip install --upgrade pip wheel
         pip install . -r requirements-dev.txt
 
-    - name: Run tox
-      run: tox
+    - name: Python Black
+      run: black --check haralyzer_3
+
+    - name: Pylint
+      run: pylint haralyzer_3
+
+    - name: Flake8
+      run: flake8 --statistics --show-source --count haralyzer_3
+
+    - name: Bandit
+      run: bandit -r haralyzer_3
+
+    - name: Tests
+      run: py.test --cov haralyzer_3 tests/ -vv
 
     - name: Report to CodeCov
       run: |
