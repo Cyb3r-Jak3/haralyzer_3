@@ -10,13 +10,6 @@ History
 * FEATURE - Adds `to_request` method for HarEntry.Request
 * CHANGE - Changes headers to a dict rather than a list
 
-Repo Changes
-************
-
-* Switched from travis-ci to GitHub Actions
-* Switched from coveralls to CodeCov
-* Added Deepsource
-
 
 1.8.0 haralyzer_3 (2020-10-29)
 ++++++++++++++++++++++++++++++
@@ -25,6 +18,12 @@ Repo Changes
 * FEATURE - Adds typing
 * CHANGE - Refactored for pylint, flake8 and python black
 * DEPRECATION- Drops Python 2 support
+
+Repo Changes
+************
+
+* Switched from travis-ci to GitHub Actions
+* Switched from coveralls to CodeCov
 
 ====
 
