@@ -28,10 +28,11 @@ setup(
         author_email="jake@jwhite.network",
         url="https://github.com/Cyb3r-Jak3/haralyzer_3",
         project_urls={
-          "Changelog": "https://github.com/Cyb3r-Jak3/haralyzer_3/blob/master/HISTORY.rst",
-          "Docs": "https://haralyzer-3.readthedocs.io/en/latest/"
+            "Changelog": "https://github.com/Cyb3r-Jak3/haralyzer_3/blob/master/HISTORY.rst",
+            "Docs": "https://haralyzer-3.readthedocs.io/en/latest/",
+            "Say Thanks!": "https://saythanks.io/to/jake%40jwhite.network"
         },
-        download_url="https://github.com/mrname/haralyzer/tarball/{}".format(VERSION),
+        download_url="https://github.com/Cyb3r-Jak3/haralyzer_3/releases/latest",
         packages=[
             "haralyzer_3"
         ],

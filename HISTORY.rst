@@ -4,7 +4,7 @@ History
 -------
 
 
-1.9.0 haralyzer_3 (2020-10-21)
+1.9.0 haralyzer_3 (2020-10-22)
 ++++++++++++++++++++++++++++++
 
 * FEATURE - Adds `to_request` method for HarEntry.Request
