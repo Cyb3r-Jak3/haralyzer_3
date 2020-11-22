@@ -3,6 +3,14 @@
 History
 -------
 
+
+1.9.0 haralyzer_3 (2020-1-21)
+++++++++++++++++++++++++++++++
+
+* FEATURE - Adds `to_request` method for HarEntry.Request
+* CHANGE - Changes headers to a dict rather than a list
+
+
 1.8.0 haralyzer_3 (2020-10-29)
 ++++++++++++++++++++++++++++++
 
@@ -11,8 +19,10 @@ History
 * Adds typing
 * refactored for pylint, flake8 and python black
 
-
 ====
+
+Before Fork
+-----------
 
 1.8.0 (2019-10-11)
 ++++++++++++++++++

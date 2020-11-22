@@ -25,25 +25,24 @@ Each entry also contains a ``Request()`` and ``Response()`` which are styled off
 
     ### REQUEST HEADERS
     print(single_entry.request.headers)
-    # [{'name': 'Host', 'value': 'humanssuck.net'}, {'name': 'User-Agent', 'value': 'Mozilla/5.0 (X11; Linux i686 on x86_64; rv:25.0) Gecko/20100101 Firefox/25.0'}, ...]
+    # {'host': 'humanssuck.net', 'user-agent': 'Mozilla/5.0 (X11; Linux i686 on x86_64; rv:25.0) Gecko/20100101 Firefox/25.0', ...}
 
     ### RESPONSE HEADERS
     print(single_entry.response.headers)
-    # [{'name': 'Server', 'value': 'nginx'}, {'name': 'Date', 'value': 'Mon, 23 Feb 2015 03:28:12 GMT'}, ...]
+    # {'server': 'nginx', 'date': 'Mon, 23 Feb 2015 03:28:12 GMT', ...}
 
     ### RESPONSE CODE
     print(single_entry.response.status)
     # 200
 
     # GET THE VALUE OF A REQUEST OR RESPONSE HEADER
-    print(single_entry.request.get_header_value("accept"))
+    print(single_entry.request.headers.get("accept"))
     # text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 
     # ALL ATTRIBUTES OF A ENTRY
 
     single_entry.cache -> Dictionary of cached content
     single_entry.cookies -> List of combined cookies for request and response
-    single_entry.headers -> List of combined headers for request and response
     single_entry.pageref -> String of the pageref
     single_entry.port -> Integer of the port number for the server
     single_entry.request -> Request object
@@ -62,7 +61,7 @@ Each entry also contains a ``Request()`` and ``Response()`` which are styled off
     single_entry.request.cacheControl -> String of the ``Cache-Control`` header
     single_entry.request.cookies -> List of cookies
     single_entry.request.encoding -> String of the ``Accept-Encoding`` header
-    single_entry.request.headers -> List of headers
+    single_entry.request.headers -> Dict of headers
     single_entry.request.headersSize -> Integer of the size of the headers
     single_entry.request.host -> String of the ``Host`` header
     single_entry.request.httpVersion -> String of the http version used
@@ -72,6 +71,10 @@ Each entry also contains a ``Request()`` and ``Response()`` which are styled off
     single_entry.request.url -> String of the URL
     single_entry.request.userAgent -> String of the User-Agent
 
+    # To_request method
+    # The to_request method will return a requests.PrepareRequest that you can use
+    single_entry.request.to_request() -> requests.PrepareRequest
+
     # ALL ATTRIBUTES OF A RESPONSE
     single_entry.response.bodySize -> Integer of the body size for the response
     single_entry.response.cacheControl -> String of the ``Cache-Control`` header
@@ -79,7 +82,7 @@ Each entry also contains a ``Request()`` and ``Response()`` which are styled off
     single_entry.response.contentSize -> Integer of the content size
     single_entry.response.contentType -> String of the ``content-type`` header
     single_entry.response.date -> String of the ``date`` header
-    single_entry.response.headers -> List of headers
+    single_entry.response.headers -> Dict of headers
     single_entry.response.headersSize -> Integer of the size of the headers
     single_entry.response.httpVersion -> String of the http version used
     single_entry.response.lastModified -> String of the ``last-modified`` header

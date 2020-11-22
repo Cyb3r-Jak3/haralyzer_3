@@ -2,19 +2,27 @@
 from setuptools import setup
 
 VERSION = "1.8.0"
-install_reqs = ["cached-property",
-                "python-dateutil",
-                "six >= 1.13.0"]
+install_reqs = [
+    "cached-property",
+    "python-dateutil",
+    "six >= 1.13.0"
+]
 
-test_requirements = ["pytest-cov",
-                     "python-coveralls", ]
+test_requirements = [
+    "pytest-cov",
+    "python-coveralls",
+    "bandit",
+    "flake8",
+    "pylint",
+    "black"
+]
 
 readme = open("README.rst").read()
 
 setup(
         name="haralyzer_3",
         version=VERSION,
-        description="A Python 3 for of haralyzer which is a framework for getting useful stuff out of HAR files",
+        description="A Python 3 fork of haralyzer which is a framework for getting useful stuff out of HAR files",
         long_description=readme,
         author="Cyb3r Jak3",
         author_email="jake@jwhite.network",
