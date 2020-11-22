@@ -9,3 +9,5 @@ bandit
 flake8
 pylint
 black
+requests
+tox

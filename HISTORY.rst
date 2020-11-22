@@ -4,7 +4,7 @@ History
 -------
 
 
-1.9.0 haralyzer_3 (2020-1-21)
+1.9.0 haralyzer_3 (2020-10-21)
 ++++++++++++++++++++++++++++++
 
 * FEATURE - Adds `to_request` method for HarEntry.Request
@@ -14,10 +14,10 @@ History
 1.8.0 haralyzer_3 (2020-10-29)
 ++++++++++++++++++++++++++++++
 
-* Adds HarEntry Class
-* Drops Python 2 support
-* Adds typing
-* refactored for pylint, flake8 and python black
+* FEATURE - Adds HarEntry Class
+* FEATURE - Adds typing
+* CHANGE - Refactored for pylint, flake8 and python black
+* DEPRECATION- Drops Python 2 support
 
 ====
 
