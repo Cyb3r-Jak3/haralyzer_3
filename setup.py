@@ -14,7 +14,8 @@ test_requirements = [
     "bandit",
     "flake8",
     "pylint",
-    "black"
+    "black",
+    "requests"
 ]
 
 readme = open("README.rst").read()
