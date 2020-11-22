@@ -31,7 +31,9 @@ jobs:
       uses: actions/cache@v2
       if: startsWith(runner.os, 'Linux')
       with:
-        path: ~/.cache/pip
+        path: |
+          ~/.cache/pip
+          ~/haralyzer_3/haralyzer_3/.tox/
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/requirements-dev.txts') }}
         restore-keys: |
           ${{ runner.os }}-pip-
