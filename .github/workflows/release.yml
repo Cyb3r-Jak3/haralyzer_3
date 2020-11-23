@@ -24,10 +24,10 @@ jobs:
           SDIST_NAME=$(basename $SDIST_PATH)
           WHEEL_PATH=$(ls dist/*.whl)
           WHEEL_NAME=$(basename $WHEEL_PATH)
-          echo ::set-env name=SDIST_NAME::${SDIST_NAME}
-          echo ::set-env name=SDIST_PATH::${SDIST_PATH}
-          echo ::set-env name=WHEEL_PATH::${WHEEL_PATH}
-          echo ::set-env name=WHEEL_NAME::${WHEEL_NAME}
+          echo "SDIST_NAME=${SDIST_NAME}" >> $GITHUB_ENV
+          echo "SDIST_PATH=${SDIST_PATH}" >> $GITHUB_ENV
+          echo "WHEEL_PATH=${WHEEL_PATH}" >> $GITHUB_ENV
+          echo "WHEEL_NAME=${WHEEL_NAME}" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
