@@ -1,29 +1,39 @@
 #!/usr/bin/env python
 from setuptools import setup
 
-VERSION = "1.8.0"
-install_reqs = ["cached-property",
-                "python-dateutil",
-                "six >= 1.13.0"]
+VERSION = "1.9.0"
+install_reqs = [
+    "cached-property",
+    "python-dateutil",
+    "six >= 1.13.0"
+]
 
-test_requirements = ["pytest-cov",
-                     "python-coveralls", ]
+test_requirements = [
+    "pytest-cov",
+    "python-coveralls",
+    "bandit",
+    "flake8",
+    "pylint",
+    "black",
+    "requests"
+]
 
 readme = open("README.rst").read()
 
 setup(
         name="haralyzer_3",
         version=VERSION,
-        description="A Python 3 for of haralyzer which is a framework for getting useful stuff out of HAR files",
+        description="A Python 3 fork of haralyzer which is a framework for getting useful stuff out of HAR files",
         long_description=readme,
         author="Cyb3r Jak3",
         author_email="jake@jwhite.network",
         url="https://github.com/Cyb3r-Jak3/haralyzer_3",
         project_urls={
-          "Changelog": "https://github.com/Cyb3r-Jak3/haralyzer_3/blob/master/HISTORY.rst",
-          "Docs": "https://haralyzer-3.readthedocs.io/en/latest/"
+            "Changelog": "https://github.com/Cyb3r-Jak3/haralyzer_3/blob/master/HISTORY.rst",
+            "Docs": "https://haralyzer-3.readthedocs.io/en/latest/",
+            "Say Thanks!": "https://saythanks.io/to/jake%40jwhite.network"
         },
-        download_url="https://github.com/mrname/haralyzer/tarball/{}".format(VERSION),
+        download_url="https://github.com/Cyb3r-Jak3/haralyzer_3/releases/latest",
         packages=[
             "haralyzer_3"
         ],

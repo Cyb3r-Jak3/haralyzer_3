@@ -12,7 +12,7 @@ on:
 
 
 jobs:
-  Test:
+  Lint:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -54,7 +54,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
 
-    - name: Install Dependanices
+    - name: Install Dependencies
       run: |
         pip install --upgrade pip wheel
         pip install . -r requirements-dev.txt

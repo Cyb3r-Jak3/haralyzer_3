@@ -1,8 +1,17 @@
 ===========
-haralyzer_3
+Haralyzer_3
 ===========
 
-`haralyzer_3` is a Python 3 framework for getting useful stuff out of HAR files. This is a fork of https://github.com/mrname/haralyzer but only supports Python 3
+`Haralyzer_3` is a Python 3 framework for getting useful stuff out of HAR files. This is a fork of https://github.com/mrname/haralyzer but only supports Python 3
+
+.. image:: https://img.shields.io/pypi/v/haralyzer_3?style=flat-square
+    :target: https://pypi.org/project/haralyzer_3/
+    :alt: PyPI
+
+.. image:: https://img.shields.io/pypi/pyversions/haralyzer_3?style=flat-square
+    :target: https://pypi.org/project/haralyzer_3/
+    :alt: PyPI - Python Version
+
 
 Overview
 --------

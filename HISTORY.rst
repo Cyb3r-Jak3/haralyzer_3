@@ -3,16 +3,32 @@
 History
 -------
 
+
+1.9.0 haralyzer_3 (2020-10-22)
+++++++++++++++++++++++++++++++
+
+* FEATURE - Adds `to_request` method for HarEntry.Request
+* CHANGE - Changes headers to a dict rather than a list
+
+
 1.8.0 haralyzer_3 (2020-10-29)
 ++++++++++++++++++++++++++++++
 
-* Adds HarEntry Class
-* Drops Python 2 support
-* Adds typing
-* refactored for pylint, flake8 and python black
+* FEATURE - Adds HarEntry Class
+* FEATURE - Adds typing
+* CHANGE - Refactored for pylint, flake8 and python black
+* DEPRECATION- Drops Python 2 support
 
+Repo Changes
+************
+
+* Switched from travis-ci to GitHub Actions
+* Switched from coveralls to CodeCov
 
 ====
+
+Before Fork
+-----------
 
 1.8.0 (2019-10-11)
 ++++++++++++++++++

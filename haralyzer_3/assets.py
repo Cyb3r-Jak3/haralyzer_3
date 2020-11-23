@@ -7,6 +7,7 @@ import datetime
 import re
 
 from collections import Counter
+from typing import List
 from cached_property import cached_property
 
 # I know this import is stupid, but I cannot use dateutil.parser without it
@@ -72,175 +73,7 @@ def create_asset_timeline(asset_list):
     return results
 
 
-class HarParser:
-    # pylint: disable=no-self-use
-    """
-    A Basic HAR parser that also adds helpful stuff for analyzing the
-    performance of a web page.
-    """
-
-    def __init__(self, har_data=None):
-        """
-        :param har_data: a ``dict`` representing the JSON of a HAR file
-        (i.e. - you need to load the HAR data into a string using json.loads or
-        requests.json() if you are pulling the data via HTTP.
-        """
-        if not har_data or not isinstance(har_data, dict):
-            raise ValueError(
-                "A dict() representation of a HAR file is required"
-                " to instantiate this class. Please RTFM."
-            )
-        self.har_data = har_data["log"]
-
-    @convert_to_entry
-    def match_headers(self, entry, header_type, header, value, regex=True):
-        """
-        Function to match headers.
-
-        Since the output of headers might use different case, like:
-
-            'content-type' vs 'Content-Type'
-
-        This function is case-insensitive
-
-        :param entry: ``HarEntry`` object to analyze
-        :param header_type: ``str`` of header type. Valid values:
-
-            * 'request'
-            * 'response'
-
-        :param header: ``str`` of the header to search for
-        :param value: ``str`` of value to search for
-        :param regex: ``bool`` indicating whether to use regex or exact match
-
-        :returns: a ``bool`` indicating whether a match was found
-        """
-        if header_type not in ["request", "response"]:
-            raise ValueError(
-                "Invalid header_type, should be either:\n\n" "* 'request'\n*'response'"
-            )
-
-        # TODO - headers are empty in some HAR data.... need fallbacks here
-        for x in getattr(entry, header_type).headers:
-            if x["name"].lower() == header.lower() and x["value"] is not None:
-                if regex and re.search(value, x["value"], flags=re.IGNORECASE):
-                    return True
-                if value == x["value"]:
-                    return True
-        return False
-
-    @staticmethod
-    @convert_to_entry
-    def match_content_type(entry, content_type, regex=True):
-        """
-        Matches the content type of a request using the mimeType metadata.
-
-        :param entry: ``HarEntry`` object to analyze
-        :param content_type: ``str`` of regex to use for finding content type
-        :param regex: ``bool`` indicating whether to use regex or exact match.
-        """
-        mime_type = entry.response.mimeType
-
-        if regex and re.search(content_type, mime_type, flags=re.IGNORECASE):
-            return True
-        if content_type == mime_type:
-            return True
-
-        return False
-
-    @convert_to_entry
-    def match_request_type(self, entry, request_type, regex=True):
-        """
-        Helper function that returns entries with a request type
-        matching the given `request_type` argument.
-
-        :param entry: ``HarEntry`` object to analyze
-        :param request_type: ``str`` of request type to match
-        :param regex: ``bool`` indicating whether to use a regex or string match
-        """
-        if regex:
-            return (
-                re.search(request_type, entry.request.method, flags=re.IGNORECASE)
-                is not None
-            )
-        return entry.request.method == request_type
-
-    @staticmethod
-    @convert_to_entry
-    def match_http_version(entry, http_version, regex=True):
-        """
-        Helper function that returns entries with a request type
-        matching the given `request_type` argument.
-
-        :param entry: ``HarEntry`` object to analyze
-        :param http_version: ``str`` of HTTP version type to match
-        :param regex: ``bool`` indicating whether to use a regex or string match
-        """
-        response_version = entry.response.httpVersion
-        if regex:
-            return (
-                re.search(http_version, response_version, flags=re.IGNORECASE)
-                is not None
-            )
-        return response_version == http_version
-
-    @convert_to_entry
-    def match_status_code(self, entry, status_code, regex=True):
-        """
-        Helper function that returns entries with a status code matching
-        then given `status_code` argument.
-
-        NOTE: This is doing a STRING comparison NOT NUMERICAL
-
-        :param entry: entry object to analyze
-        :param status_code: ``str`` of status code to search for
-        :param regex: ``bool`` indicating whether to use a regex or string match
-        """
-        if regex:
-            return re.search(status_code, str(entry.response.status)) is not None
-        return str(entry.response.status) == status_code
-
-    # pylint: enable=no-self-use
-    @property
-    def pages(self):
-        """
-        This is a list of HarPage objects, each of which represents a page
-        from the HAR file.
-        """
-        # Start with a page object for unknown entries if the HAR data has
-        # any entries with no page ID
-        pages = []
-        if any("pageref" not in entry for entry in self.har_data["entries"]):
-            pages.append(HarPage("unknown", har_parser=self))
-        for har_page in self.har_data["pages"]:
-            page = HarPage(har_page["id"], har_parser=self)
-            pages.append(page)
-
-        return pages
-
-    @property
-    def browser(self):
-        """:returns the browser user"""
-        return self.har_data["browser"]
-
-    @property
-    def version(self):
-        """:returns the HAR version"""
-        return self.har_data["version"]
-
-    @property
-    def creator(self):
-        """:returns the HAR file creator"""
-        return self.har_data["creator"]
-
-    @cached_property
-    def hostname(self):
-        """:returns the host name"""
-        valid_pages = [p for p in self.pages if p.page_id != "unknown"]
-        return valid_pages[0].hostname
-
-
-def get_total_size(entries):
+def get_total_size(entries: list) -> int:
     """
     Returns the total size of a collection of entries.
 
@@ -253,7 +86,7 @@ def get_total_size(entries):
     return size
 
 
-def get_total_size_trans(entries):
+def get_total_size_trans(entries: list) -> int:
     """
     Returns the total size of a collection of entries - transferred.
 
@@ -274,7 +107,7 @@ class HarEntry(MimicDict):
     An object that represent one entry in a HAR Page
     """
 
-    def __init__(self, entry):
+    def __init__(self, entry: dict):
         super().__init__()
         self.raw_entry = entry
 
@@ -361,7 +194,7 @@ class HarPage:
     An object representing one page of a HAR resource
     """
 
-    def __init__(self, page_id, har_parser=None, har_data=None):
+    def __init__(self, page_id: str, har_parser=None, har_data: dict = None):
         """
         :param page_id: ``str`` of the page ID
         :param har_parser: a HarParser object
@@ -564,14 +397,11 @@ class HarPage:
     # BEGIN PROPERTIES #
 
     @cached_property
-    def hostname(self) -> [str, None]:
+    def hostname(self) -> str:
         """
         Hostname of the initial request
         """
-        for header in self.entries[0].request.headers:
-            if header["name"] == "Host":
-                return header["value"]
-        return None
+        return self.entries[0].request.headers.get("host", "")
 
     @cached_property
     def url(self) -> [str, None]:
@@ -586,7 +416,7 @@ class HarPage:
         return None
 
     @cached_property
-    def entries(self) -> list:
+    def entries(self) -> List[HarEntry]:
         """
         Gets all the entry for a page
         :return: list of HarEntries
@@ -810,3 +640,180 @@ class HarPage:
     def html_load_time(self) -> int:
         """:returns int of html load"""
         return self._get_asset_load("html")
+
+
+class HarParser:
+    # pylint: disable=no-self-use
+    """
+    A Basic HAR parser that also adds helpful stuff for analyzing the
+    performance of a web page.
+    """
+
+    def __init__(self, har_data: dict = None):
+        """
+        :param har_data: a ``dict`` representing the JSON of a HAR file
+        (i.e. - you need to load the HAR data into a string using json.loads or
+        requests.json() if you are pulling the data via HTTP.
+        """
+        if not har_data or not isinstance(har_data, dict):
+            raise ValueError(
+                "A dict() representation of a HAR file is required"
+                " to instantiate this class. Please RTFM."
+            )
+        self.har_data = har_data["log"]
+
+    @convert_to_entry
+    def match_headers(
+        self, entry: dict, header_type: str, header: str, value: str, regex: bool = True
+    ) -> bool:
+        """
+        Function to match headers.
+
+        Since the output of headers might use different case, like:
+
+            'content-type' vs 'Content-Type'
+
+        This function is case-insensitive
+
+        :param entry: ``HarEntry`` object to analyze
+        :param header_type: ``str`` of header type. Valid values:
+
+            * 'request'
+            * 'response'
+
+        :param header: ``str`` of the header to search for
+        :param value: ``str`` of value to search for
+        :param regex: ``bool`` indicating whether to use regex or exact match
+
+        :returns: a ``bool`` indicating whether a match was found
+        """
+        if header_type not in {"request", "response"}:
+            raise ValueError(
+                "Invalid header_type, should be either:\n\n" "* 'request'\n*'response'"
+            )
+        # TODO - headers are empty in some HAR data.... need fallbacks here
+        x = getattr(entry, header_type).headers.get(header.lower())
+        if x is not None:
+            if regex and re.search(value, x, flags=re.IGNORECASE):
+                return True
+            if value == x:
+                return True
+        return False
+
+    @staticmethod
+    @convert_to_entry
+    def match_content_type(
+        entry: HarEntry, content_type: str, regex: bool = True
+    ) -> bool:
+        """
+        Matches the content type of a request using the mimeType metadata.
+
+        :param entry: ``HarEntry`` object to analyze
+        :param content_type: ``str`` of regex to use for finding content type
+        :param regex: ``bool`` indicating whether to use regex or exact match.
+        """
+        mime_type = entry.response.mimeType
+
+        if regex and re.search(content_type, mime_type, flags=re.IGNORECASE):
+            return True
+        if content_type == mime_type:
+            return True
+
+        return False
+
+    @convert_to_entry
+    def match_request_type(
+        self, entry: HarEntry, request_type: str, regex: bool = True
+    ) -> bool:
+        """
+        Helper function that returns entries with a request type
+        matching the given `request_type` argument.
+
+        :param entry: ``HarEntry`` object to analyze
+        :param request_type: ``str`` of request type to match
+        :param regex: ``bool`` indicating whether to use a regex or string match
+        """
+        if regex:
+            return (
+                re.search(request_type, entry.request.method, flags=re.IGNORECASE)
+                is not None
+            )
+        return entry.request.method == request_type
+
+    @staticmethod
+    @convert_to_entry
+    def match_http_version(
+        entry: HarEntry, http_version: str, regex: bool = True
+    ) -> bool:
+        """
+        Helper function that returns entries with a request type
+        matching the given `request_type` argument.
+
+        :param entry: ``HarEntry`` object to analyze
+        :param http_version: ``str`` of HTTP version type to match
+        :param regex: ``bool`` indicating whether to use a regex or string match
+        """
+        response_version = entry.response.httpVersion
+        if regex:
+            return (
+                re.search(http_version, response_version, flags=re.IGNORECASE)
+                is not None
+            )
+        return response_version == http_version
+
+    @convert_to_entry
+    def match_status_code(
+        self, entry: HarEntry, status_code: str, regex: bool = True
+    ) -> bool:
+        """
+        Helper function that returns entries with a status code matching
+        then given `status_code` argument.
+
+        NOTE: This is doing a STRING comparison NOT NUMERICAL
+
+        :param entry: entry object to analyze
+        :param status_code: ``str`` of status code to search for
+        :param regex: ``bool`` indicating whether to use a regex or string match
+        """
+        if regex:
+            return re.search(status_code, str(entry.response.status)) is not None
+        return str(entry.response.status) == status_code
+
+    # pylint: enable=no-self-use
+    @property
+    def pages(self) -> List[HarPage]:
+        """
+        This is a list of HarPage objects, each of which represents a page
+        from the HAR file.
+        """
+        # Start with a page object for unknown entries if the HAR data has
+        # any entries with no page ID
+        pages = []
+        if any("pageref" not in entry for entry in self.har_data["entries"]):
+            pages.append(HarPage("unknown", har_parser=self))
+        for har_page in self.har_data["pages"]:
+            page = HarPage(har_page["id"], har_parser=self)
+            pages.append(page)
+
+        return pages
+
+    @property
+    def browser(self):
+        """:returns the browser user"""
+        return self.har_data["browser"]
+
+    @property
+    def version(self):
+        """:returns the HAR version"""
+        return self.har_data["version"]
+
+    @property
+    def creator(self):
+        """:returns the HAR file creator"""
+        return self.har_data["creator"]
+
+    @cached_property
+    def hostname(self):
+        """:returns the host name"""
+        valid_pages = [p for p in self.pages if p.page_id != "unknown"]
+        return valid_pages[0].hostname

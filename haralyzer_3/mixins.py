@@ -12,21 +12,6 @@ def iteritems(dic: dict):
     return iter(dic.items())
 
 
-class GetHeaders:
-    # pylint: disable=invalid-name,too-few-public-methods
-    """Mixin to get a header"""
-
-    def get_header_value(self, name: str) -> str:
-        """
-        Returns the header value of the header defined in ``name``
-
-        :param name: ``str`` name of the header to get the value of
-        """
-        for x in self.raw_entry["headers"]:
-            if x["name"].lower() == name.lower():
-                return x["value"]
-
-
 class MimicDict(MutableMapping):
     # pylint: disable=invalid-name
     """Mixin for functions to mimic a dictionary for backward compatibility"""
@@ -47,7 +32,7 @@ class MimicDict(MutableMapping):
         self.raw_entry[key] = value
 
 
-class HttpTransaction(GetHeaders, MimicDict):
+class HttpTransaction(MimicDict):
     """Class that is used to make a Request or Response object as a dict with headers"""
 
     # pylint: disable=invalid-name
@@ -57,9 +42,9 @@ class HttpTransaction(GetHeaders, MimicDict):
 
     # Base class gets properties that belong to both request/response
     @cached_property
-    def headers(self) -> list:
-        """Returns a list of headers"""
-        return self.raw_entry["headers"]
+    def headers(self) -> dict:
+        """Returns a dict of headers"""
+        return {x["name"].lower(): x["value"] for x in self.raw_entry["headers"]}
 
     @cached_property
     def bodySize(self) -> int:
@@ -84,4 +69,4 @@ class HttpTransaction(GetHeaders, MimicDict):
     @cached_property
     def cacheControl(self):
         """:returns cache-control"""
-        return self.get_header_value("Cache-Control")
+        return self.headers.get("cache-control")
